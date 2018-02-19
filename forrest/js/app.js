@@ -35,11 +35,11 @@ $(document).ready(function() {
             error: function(err) {
                 // Throw an error if something went wrong with the AJAX request
                 throw new Error('An AJAX error occurred: ', err);
-            },
-            always: function() {
-                // Once the AJAX request has finished (successfully or not), remove the loader GIF
-                $('#loadingGif').remove();
             }
+        })
+        .always(function() {
+            // Once the AJAX request has finished (successfully or not), remove the loader GIF
+            $('#loadingGif').remove();
         });
     }
 
@@ -65,6 +65,9 @@ $(document).ready(function() {
                 card.append($('<img class=\'card-img-top\'>').attr('src', 'img/no-image.jpg'));
             }
 
+            // Appends a date to the card and uses moment.js as a date parser
+            body.append($('<small></small>').text(moment(article.publishedAt).format("MMM DD YYYY")));
+
             // Appends an element to the body element
             body.append($('<h5 class=\'card-title\'></h5>').text(article.title));
             
@@ -74,10 +77,7 @@ $(document).ready(function() {
             }
 
             // Appends an a element to the body element
-            body.append($('<a href=\'' + article.url + '\' target=\'_blank\'></a>').text(article.source.name));
-
-            // Appends a date to the card and uses moment.js as a date parser
-            body.append($('<p></p>').text(moment(article.publishedAt).format("MMM DD YYYY")));
+            body.append($('<a href=\'' + article.url + '\' target=\'_blank\'></a>').text("View article on " + article.source.name));
 
             // Appends the body to the card element
             card.append(body);
@@ -102,8 +102,8 @@ $(document).ready(function() {
         e.preventDefault();
 
         // Building the URL to pass to getData()
-        var countryCode = '?country=' + $('#country').val();
-        var url = baseURL + countryCode + apiKey;
+        var countryCode = '?country=' + $('#country').val(),
+            url = baseURL + countryCode + apiKey;
 
         // Calls the getData method passing in the constructed url and populateArticles as the callback
         getData(url, populateArticles);
