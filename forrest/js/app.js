@@ -76,6 +76,9 @@ $(document).ready(function() {
             // Appends an a element to the body element
             body.append($('<a href=\'' + article.url + '\' target=\'_blank\'></a>').text(article.source.name));
 
+            // Appends a date to the card and uses moment.js as a date parser
+            body.append($('<p></p>').text(moment(article.publishedAt).format("MMM DD YYYY")));
+
             // Appends the body to the card element
             card.append(body);
 
