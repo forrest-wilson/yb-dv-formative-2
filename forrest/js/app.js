@@ -127,10 +127,12 @@ $(document).ready(function() {
 
         // If a searchValue isn't specified, show a message on the page and exit the scope
         if (searchValue == '') {
-            $("#articleContainer").empty();
-            $("#articleContainer").append($("<p>Please enter a search term.</p>"));
+            $("#errorMessage").remove();
+            $("#searchTermForm").append($('<p id=\'errorMessage\'>Please enter a search term.</p>'));
             return;
         }
+
+        $("#errorMessage").remove();
 
         // constructs the URL and calls the getData function
         var url = baseURL + searchTerm + language + sortedBy + apiKey;
