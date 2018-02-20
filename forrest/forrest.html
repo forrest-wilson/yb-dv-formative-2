@@ -11,21 +11,38 @@
 </head>
 <body>
     <div class="container">
-        <form id="searchForm" class="searchForm mt-4">
-            <div class="form-group">
-                <label for="country">Which countries News would you like to see?</label>
-                <select class="form-control" name="country" id="country">
-                    <option value="au">Australia</option>
-                    <option value="ca">Canada</option>
-                    <option value="fr">France</option>
-                    <option value="nz">New Zealand</option>
-                    <option value="kr">South Korea (the one without Kim)</option>
-                    <option value="gb">United Kingdom</option>
-                    <option value="us">United States</option>
-                </select>
-            </div>
-            <button id="submitButton" type="submit" class="btn btn-primary">Search</button>
-        </form>
+        <div class="row">
+            <form id="searchForm" class="searchForm mt-4 col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label for="country">View Top Stories in:</label>
+                    <select class="form-control" name="country" id="country">
+                        <option value="au">Australia</option>
+                        <option value="ca">Canada</option>
+                        <option value="fr">France</option>
+                        <option value="nz">New Zealand</option>
+                        <option value="kr">South Korea (the one without Kim)</option>
+                        <option value="gb">United Kingdom</option>
+                        <option value="us">United States</option>
+                    </select>
+                </div>
+                <button id="submitButton" type="submit" class="btn btn-primary">Search</button>
+            </form>
+            <form class="mt-4 col-sm-12 col-md-6">
+                <div class="form-group">
+                    <label for="searchTopic">Or search a Topic:</label>
+                    <input class="form-control" type="text" id="searchTerm" placeholder="Search">
+                </div>
+                <div class="form-group">
+                    <label for="sortedBy">Sort By</label>
+                    <select class="form-control" name="sortedBy" id="sortedBy">
+                        <option value="relevancy">Relevancy</option>
+                        <option value="popularity">Popularity</option>
+                        <option value="publishedAt">Newest First</option>
+                    </select>
+                </div>
+                <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
+            </form>
+        </div>
         <div id="articleContainer" class="row"></div>
     </div>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
