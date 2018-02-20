@@ -50,14 +50,14 @@ $(document).ready(function() {
             childElements = [];
 
         if (data.totalResults == 0) {
-            container.append($("<p>There were no results</p>"));
+            container.append($('<p>There were no results</p>'));
             return;
         }
 
         // Loops through each article and adds a DOM node to the childElements array
         for (var i = 0; i < data.articles.length; i++) {
             var article = data.articles[i],
-                parent = $("<div class=\'col-sm-12 col-md-6 col-lg-4\'></div>"),
+                parent = $('<div class=\'col-sm-12 col-md-6 col-lg-4\'></div>'),
                 card = $('<div class=\'card mt-4 boxShadowHover\'></div>'),
                 body = $('<div class=\'card-body\'></div>');
 
@@ -70,7 +70,7 @@ $(document).ready(function() {
             }
 
             // Appends a date to the card and uses moment.js as a date parser
-            body.append($('<small></small>').text(moment(article.publishedAt).format("MMM DD YYYY")));
+            body.append($('<small></small>').text(moment(article.publishedAt).format('MMM DD YYYY')));
 
             // Appends an element to the body element
             body.append($('<h5 class=\'card-title\'></h5>').text(article.title));
@@ -81,7 +81,7 @@ $(document).ready(function() {
             }
 
             // Appends an a element to the body element
-            body.append($('<a href=\'' + article.url + '\' target=\'_blank\'></a>').text("View article on " + article.source.name));
+            body.append($('<a href=\'' + article.url + '\' target=\'_blank\'></a>').text('View article on ' + article.source.name));
 
             // Appends the body to the card element
             card.append(body);
@@ -127,12 +127,12 @@ $(document).ready(function() {
 
         // If a searchValue isn't specified, show a message on the page and exit the scope
         if (searchValue == '') {
-            $("#errorMessage").remove();
-            $("#searchTermForm").append($('<p id=\'errorMessage\'>Please enter a search term.</p>'));
+            $('#errorMessage').remove();
+            $('#searchTermForm').append($('<p id=\'errorMessage\'>Please enter a search term.</p>'));
             return;
         }
 
-        $("#errorMessage").remove();
+        $('#errorMessage').remove();
 
         // constructs the URL and calls the getData function
         var url = baseURL + searchTerm + language + sortedBy + apiKey;
