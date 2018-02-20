@@ -3,8 +3,7 @@ $(document).ready(function() {
     //**** Variables ****//
     //*******************//
 
-    var baseURL = 'https://newsapi.org/v2/top-headlines',
-        apiKey = '&apiKey=8ae3145ae848419daac961e5bb96b441';
+    var apiKey = '&apiKey=8ae3145ae848419daac961e5bb96b441';
 
     //*******************//
     //**** Functions ****//
@@ -50,11 +49,16 @@ $(document).ready(function() {
         var container = $('#articleContainer'),
             childElements = [];
 
+        if (data.totalResults == 0) {
+            container.append($("<p>There were no results</p>"));
+            return;
+        }
+
         // Loops through each article and adds a DOM node to the childElements array
         for (var i = 0; i < data.articles.length; i++) {
             var article = data.articles[i],
                 parent = $("<div class=\'col-sm-12 col-md-6 col-lg-4\'></div>"),
-                card = $('<div class=\'card mt-4\'></div>'),
+                card = $('<div class=\'card mt-4 boxShadowHover\'></div>'),
                 body = $('<div class=\'card-body\'></div>');
 
             // Only appends an image if it exists in the article
@@ -102,10 +106,35 @@ $(document).ready(function() {
         e.preventDefault();
 
         // Building the URL to pass to getData()
-        var countryCode = '?country=' + $('#country').val(),
+        var baseURL = 'https://newsapi.org/v2/top-headlines',
+            countryCode = '?country=' + $('#country').val(),
             url = baseURL + countryCode + apiKey;
 
         // Calls the getData method passing in the constructed url and populateArticles as the callback
         getData(url, populateArticles);
+    });
+
+    // #searchButton event handler
+    $('#searchButton').on('click', function(e) {
+        e.preventDefault();
+
+        // Building the URL
+        var baseURL = 'https://newsapi.org/v2/everything',
+            searchValue = $('#searchTerm').val(),
+            searchTerm = '?q=' + searchValue,
+            language = '&language=en',
+            sortedBy = '&sortBy=' + $('#sortedBy').val();
+
+        // If a searchValue isn't specified, show a message on the page and exit the scope
+        if (searchValue == '') {
+            $("#articleContainer").empty();
+            $("#articleContainer").append($("<p>Please enter a search term.</p>"));
+            return;
+        }
+
+        // constructs the URL and calls the getData function
+        var url = baseURL + searchTerm + language + sortedBy + apiKey;
+        getData(url, populateArticles);
+
     });
 });
