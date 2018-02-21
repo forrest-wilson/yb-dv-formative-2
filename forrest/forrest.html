@@ -7,45 +7,55 @@
     <title>Forrest</title>
     <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
     <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
 <body>
     <div class="container">
+        <a href="../index.html"><i class="fa fa-angle-left"></i> Back to Index</a>
         <div class="row">
-            <form id="searchForm" class="searchForm mt-4 col-sm-12 col-md-6">
+            <form id="searchTermForm" class="searchTermForm mt-4 col-sm-12 col-md-6">
                 <div class="form-group">
-                    <label for="country">View Top Stories in:</label>
-                    <select class="form-control" name="country" id="country">
-                        <option value="au">Australia</option>
-                        <option value="ca">Canada</option>
-                        <option value="fr">France</option>
-                        <option value="nz">New Zealand</option>
-                        <option value="kr">South Korea (the one without Kim)</option>
-                        <option value="gb">United Kingdom</option>
-                        <option value="us">United States</option>
-                    </select>
-                </div>
-                <button id="submitButton" type="submit" class="btn btn-primary">Search</button>
-            </form>
-            <form id="searchTermForm" class="mt-4 col-sm-12 col-md-6">
-                <div class="form-group">
-                    <label for="searchTopic">Or search a Topic:</label>
+                    <label for="searchTopic">Search for a News Topic:</label>
                     <input class="form-control" type="text" id="searchTerm" placeholder="Search">
                 </div>
                 <div class="form-group">
-                    <label for="sortedBy">Sort By</label>
+                    <label for="sortedBy">Sort By:</label>
                     <select class="form-control" name="sortedBy" id="sortedBy">
                         <option value="relevancy">Relevancy</option>
                         <option value="popularity">Popularity</option>
                         <option value="publishedAt">Newest First</option>
                     </select>
                 </div>
+                <div class="form-group">
+                    <label for="resultsNumber">Number of Results per page:</label>
+                    <select class="form-control" name="resultsNumber" id="resultsNumber">
+                        <option value="5">5</option>
+                        <option value="10" selected="selected">10</option>
+                        <option value="15">15</option>
+                        <option value="20">20</option>
+                        <option value="25">25</option>
+                        <option value="30">30</option>
+                    </select>
+                </div>
+                <div class="alert alert-warning alert-dismissible fade show hidden" role="alert">
+                    Please enter a search term
+                </div>
                 <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
             </form>
+        </div>
+        <div id="paginationDiv">
+            <nav>
+                <ul class="pagination">
+                    <li class="page-item"><a href="#" class="page-link" data-pagination="decrement">Previous</a></li>
+                    <li class="page-item"><a href="#" class="page-link" data-pagination="increment">Next</a></li>
+                </ul>
+            </nav>
         </div>
         <div id="articleContainer" class="row"></div>
     </div>
     <script src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
     <script src="../node_modules/moment/min/moment.min.js"></script>
     <script src="js/app.js"></script>
 </body>
