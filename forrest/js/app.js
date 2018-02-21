@@ -3,7 +3,8 @@ $(document).ready(function() {
     //**** Variables ****//
     //*******************//
 
-    var apiKey = '&apiKey=8ae3145ae848419daac961e5bb96b441';
+    var apiKey = '&apiKey=8ae3145ae848419daac961e5bb96b441',
+        paginationPage = 1;
 
     //*******************//
     //**** Functions ****//
@@ -97,46 +98,60 @@ $(document).ready(function() {
         container.append(childElements);
     }
 
+    // Builds the URL to be queried
+    function buildSearchURL() {
+        // Building the URL
+        var baseURL = 'https://newsapi.org/v2/everything',
+            searchValue = $('#searchTerm').val(),
+            searchTerm = '?q=' + searchValue,
+            resultsPerPage = '&pageSize=' + $('#resultsNumber').val(),
+            language = '&language=en',
+            sortedBy = '&sortBy=' + $('#sortedBy').val();
+        
+        // If a searchValue isn't specified, show a message on the page and exit the scope
+        if (searchValue == '') {
+            $('.alert').show();
+            return;
+        }
+
+        $('.alert').hide();
+
+        // constructs the URL and calls the getData function
+        var url = baseURL + searchTerm + resultsPerPage + language + sortedBy + '&page=' + paginationPage + apiKey;
+        getData(url, populateArticles);
+    }
+
     //************************//
     //**** Event Handlers ****//
     //************************//
-
-    // #submitButton event handler
-    $('#submitButton').on('click', function(e) {
-        e.preventDefault();
-
-        // Building the URL to pass to getData()
-        var baseURL = 'https://newsapi.org/v2/top-headlines',
-            countryCode = '?country=' + $('#country').val(),
-            url = baseURL + countryCode + apiKey;
-
-        // Calls the getData method passing in the constructed url and populateArticles as the callback
-        getData(url, populateArticles);
-    });
 
     // #searchButton event handler
     $('#searchButton').on('click', function(e) {
         e.preventDefault();
 
-        // Building the URL
-        var baseURL = 'https://newsapi.org/v2/everything',
-            searchValue = $('#searchTerm').val(),
-            searchTerm = '?q=' + searchValue,
-            language = '&language=en',
-            sortedBy = '&sortBy=' + $('#sortedBy').val();
+        paginationPage = 1;
+        buildSearchURL();
+    });
 
-        // If a searchValue isn't specified, show a message on the page and exit the scope
-        if (searchValue == '') {
-            $('#errorMessage').remove();
-            $('#searchTermForm').append($('<p id=\'errorMessage\'>Please enter a search term.</p>'));
-            return;
+    // Pagination event listeners
+    $('.page-link').on('click', function(e) {
+        e.preventDefault();
+
+        switch (this.dataset.pagination) {
+            case 'decrement':
+                if (paginationPage <= 1) {
+                    return;
+                }
+                paginationPage--;
+                break;
+            case 'increment':
+                paginationPage++;
+                break;
+            default: 
+                throw new Error('Something went wrong with pagination');
+                break;
         }
 
-        $('#errorMessage').remove();
-
-        // constructs the URL and calls the getData function
-        var url = baseURL + searchTerm + language + sortedBy + apiKey;
-        getData(url, populateArticles);
-
+        buildSearchURL();
     });
 });
