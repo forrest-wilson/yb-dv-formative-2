@@ -4,7 +4,9 @@ $(document).ready(function() {
     //*******************//
 
     var apiKey = '&apiKey=8ae3145ae848419daac961e5bb96b441',
-        paginationPage = 1;
+        paginationPage = 1,
+        numOfResults = null,
+        xhr = null; // Global reference to current AJAX request
 
     //*******************//
     //**** Functions ****//
@@ -12,7 +14,11 @@ $(document).ready(function() {
 
     // Performs the ajax request and handles the before, after, and error outcomes
     function getData(url, callback) {
-        $.ajax({
+        if (xhr != null && xhr.readyState != 4) {
+            xhr.abort();
+        }
+        
+        xhr = $.ajax({
             method: 'GET',
             dataType: 'json',
             url: url,
@@ -33,8 +39,13 @@ $(document).ready(function() {
                 if (callback) callback(data);
             },
             error: function(err) {
-                // Throw an error if something went wrong with the AJAX request
-                throw new Error('An AJAX error occurred: ', err);
+                // If request is aborted exit the scope
+                if (err.statusText == "abort") {
+                    return;
+                } else {
+                    // Otherwise, throw an error
+                    throw new Error("Unhandled AJAX Error");
+                }
             }
         })
         .always(function() {
@@ -46,6 +57,21 @@ $(document).ready(function() {
     // Handler for populating #articleContainer with articles
     function populateArticles(data) {
         console.log(data);
+
+        if (numOfResults === null) {
+            numOfResults = $('#resultsNumber').val();
+        }
+
+        if (numOfResults <= data.totalResults) {
+            $('#resultMax').text(numOfResults);
+        } else {
+            $('#resultMax').text(data.totalResults);
+        }
+
+        $('#resultMin').text(numOfResults - $('#resultsNumber').val() + 1);
+        $('#totalResults').text(data.totalResults);
+
+        $('#paginationDiv').show();
 
         var container = $('#articleContainer'),
             childElements = [];
@@ -130,6 +156,7 @@ $(document).ready(function() {
         e.preventDefault();
 
         paginationPage = 1;
+        numOfResults = null;
         buildSearchURL();
     });
 
@@ -139,13 +166,16 @@ $(document).ready(function() {
 
         switch (this.dataset.pagination) {
             case 'decrement':
+                // Makes sure if you're trying to access a page that doesn't exist it will stop you
                 if (paginationPage <= 1) {
                     return;
                 }
                 paginationPage--;
+                numOfResults = paginationPage * $('#resultsNumber').val();
                 break;
             case 'increment':
                 paginationPage++;
+                numOfResults = paginationPage * $('#resultsNumber').val();
                 break;
             default: 
                 throw new Error('Something went wrong with pagination');
