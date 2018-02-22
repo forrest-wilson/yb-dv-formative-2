@@ -4,17 +4,26 @@ $(document).ready(function() {
     //*******************//
 
     var apiKey = '&apiKey=8ae3145ae848419daac961e5bb96b441',
-        paginationPage = 1,
-        numOfResults = null,
-        xhr = null; // Global reference to current AJAX request
+        xhr = null, // Global reference to current AJAX request
+        results; // Makes the results globally available
 
     //*******************//
     //**** Functions ****//
     //*******************//
 
+    // Resets the results to their initial value
+    function resetResults() {
+        results = {
+            pageNumber: 1,
+            perPage: parseInt($('#resultsNumber').val()),
+            total: null,
+            showing: null
+        };
+    }
+
     // Performs the ajax request and handles the before, after, and error outcomes
     function getData(url, callback) {
-        if (xhr != null && xhr.readyState != 4) {
+        if (xhr !== null && xhr.readyState != 4) {
             xhr.abort();
         }
         
@@ -32,7 +41,7 @@ $(document).ready(function() {
                 }
 
                 // Show a loading GIF
-                $('#articleContainer').append($('<img id=\'loadingGif\' src=\'img/ripple.svg\' style=\'position: absolute; left: 50%; transform: translateX(-50%);\' alt=\'Loading GIF\'>'));
+                container.append($('<img id=\'loadingGif\' src=\'img/ripple.svg\' style=\'position: absolute; left: 50%; transform: translateX(-50%);\' alt=\'Loading GIF\'>'));
             },
             success: function(data) {
                 // If a callback has been defined, call it and pass through the data receieved from the request
@@ -40,11 +49,11 @@ $(document).ready(function() {
             },
             error: function(err) {
                 // If request is aborted exit the scope
-                if (err.statusText == "abort") {
+                if (err.statusText == 'abort') {
                     return;
                 } else {
                     // Otherwise, throw an error
-                    throw new Error("Unhandled AJAX Error");
+                    throw new Error('Unhandled AJAX Error');
                 }
             }
         })
@@ -54,32 +63,43 @@ $(document).ready(function() {
         });
     }
 
+    function populateResultsDisplay() {
+        // Populates the text below the Previous and Next buttons
+        if (results.showing === null) {
+            $('#resultMin').text('1');
+            $('#resultMax').text(results.perPage);
+            results.showing = results.perPage;
+        } else {
+            $('#resultMin').text(results.showing - results.perPage + 1);
+            $('#resultMax').text(results.showing);
+        }
+
+        if (results.showing > results.total) {
+            $('#resultMax').text(results.total);
+        }
+
+        $('#totalResults').text(results.total);
+    }
+
     // Handler for populating #articleContainer with articles
     function populateArticles(data) {
-        console.log(data);
-
-        if (numOfResults === null) {
-            numOfResults = $('#resultsNumber').val();
-        }
-
-        if (numOfResults <= data.totalResults) {
-            $('#resultMax').text(numOfResults);
-        } else {
-            $('#resultMax').text(data.totalResults);
-        }
-
-        $('#resultMin').text(numOfResults - $('#resultsNumber').val() + 1);
-        $('#totalResults').text(data.totalResults);
-
-        $('#paginationDiv').show();
-
         var container = $('#articleContainer'),
             childElements = [];
 
-        if (data.totalResults == 0) {
+        // Assigning the remaining results properties
+        if (results.total === null) {
+            results.total = data.totalResults;
+        }
+
+        if (results.total === 0) {
             container.append($('<p>There were no results</p>'));
+            $('#paginationDiv').hide();
             return;
         }
+
+        populateResultsDisplay();
+
+        $('#paginationDiv').show();
 
         // Loops through each article and adds a DOM node to the childElements array
         for (var i = 0; i < data.articles.length; i++) {
@@ -89,7 +109,7 @@ $(document).ready(function() {
                 body = $('<div class=\'card-body\'></div>');
 
             // Only appends an image if it exists in the article
-            if (article.urlToImage != null) {
+            if (article.urlToImage !== null) {
                 card.append($('<img class=\'card-img-top\'>').attr('src', article.urlToImage));
             } else {
                 // otherwise appends a stock image
@@ -130,12 +150,12 @@ $(document).ready(function() {
         var baseURL = 'https://newsapi.org/v2/everything',
             searchValue = $('#searchTerm').val(),
             searchTerm = '?q=' + searchValue,
-            resultsPerPage = '&pageSize=' + $('#resultsNumber').val(),
+            resultsPerPage = '&pageSize=' + results.perPage,
             language = '&language=en',
             sortedBy = '&sortBy=' + $('#sortedBy').val();
         
         // If a searchValue isn't specified, show a message on the page and exit the scope
-        if (searchValue == '') {
+        if (searchValue === '') {
             $('.alert').show();
             return;
         }
@@ -143,7 +163,7 @@ $(document).ready(function() {
         $('.alert').hide();
 
         // constructs the URL and calls the getData function
-        var url = baseURL + searchTerm + resultsPerPage + language + sortedBy + '&page=' + paginationPage + apiKey;
+        var url = baseURL + searchTerm + resultsPerPage + language + sortedBy + '&page=' + results.pageNumber + apiKey;
         getData(url, populateArticles);
     }
 
@@ -155,8 +175,7 @@ $(document).ready(function() {
     $('#searchButton').on('click', function(e) {
         e.preventDefault();
 
-        paginationPage = 1;
-        numOfResults = null;
+        resetResults();
         buildSearchURL();
     });
 
@@ -167,21 +186,34 @@ $(document).ready(function() {
         switch (this.dataset.pagination) {
             case 'decrement':
                 // Makes sure if you're trying to access a page that doesn't exist it will stop you
-                if (paginationPage <= 1) {
+                if (results.pageNumber <= 1) {
                     return;
                 }
-                paginationPage--;
-                numOfResults = paginationPage * $('#resultsNumber').val();
+                results.pageNumber--;
+                results.showing = results.pageNumber * results.perPage;
                 break;
             case 'increment':
-                paginationPage++;
-                numOfResults = paginationPage * $('#resultsNumber').val();
+                if (results.showing > results.total) {
+                    return;
+                }
+                results.pageNumber++;
+                results.showing = results.pageNumber * results.perPage;
                 break;
             default: 
                 throw new Error('Something went wrong with pagination');
-                break;
         }
 
         buildSearchURL();
     });
+
+    // Event listener for change of results per page
+    $('#resultsNumber').on('change', function() {
+        results.perPage = parseInt($('#resultsNumber').val());
+    });
+
+    //**************************************//
+    //**** Functions to run on DOM Load ****//
+    //**************************************//
+
+    resetResults();
 });
