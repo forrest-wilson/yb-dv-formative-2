@@ -6,7 +6,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Forrest</title>
     <link rel="stylesheet" href="../node_modules/normalize.css/normalize.css">
-    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.css">
+    <link rel="stylesheet" href="../node_modules/bootstrap/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="../node_modules/font-awesome/css/font-awesome.min.css">
     <link rel="stylesheet" href="css/style.css">
 </head>
@@ -44,13 +44,14 @@
                 <button id="searchButton" type="submit" class="btn btn-primary">Search</button>
             </form>
         </div>
-        <div id="paginationDiv">
+        <div id="paginationDiv" class="hidden">
             <nav>
                 <ul class="pagination">
                     <li class="page-item"><a href="#" class="page-link" data-pagination="decrement">Previous</a></li>
                     <li class="page-item"><a href="#" class="page-link" data-pagination="increment">Next</a></li>
                 </ul>
             </nav>
+            <p>Displaying results <span id="resultMin"></span> - <span id="resultMax"></span> of <span id="totalResults"></span></p>
         </div>
         <div id="articleContainer" class="row"></div>
     </div>
