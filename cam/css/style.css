@@ -1,1 +1,19 @@
- 
+body {
+	background-color: lightblue;
+}
+
+#wrapper {
+	display: inline-block;
+	list-style-type: none;
+}
+
+
+li {
+	float: left;
+	margin: 5px;
+}
+
+/*img {
+	width: 350px;
+	height: 250px;
+}*/ 
