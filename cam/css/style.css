@@ -1,5 +1,6 @@
 body {
-	background-color: lightblue;
+	background-color: #22313F;
+	margin: 0 auto;
 }
 
 #wrapper {
@@ -7,13 +8,63 @@ body {
 	list-style-type: none;
 }
 
-
 li {
-	float: left;
+	float: right;
 	margin: 5px;
 }
 
-/*img {
-	width: 350px;
-	height: 250px;
-}*/ 
+img {
+	width: 640px;
+	height: 427px;
+}
+
+#logo {
+	position: fixed;
+	left: 180px;
+	top: 50px;
+}
+
+#nasaLogo {
+	width: 20%;
+	height: 20%;
+}
+
+form {
+	z-index: 1000;
+    position: fixed;
+    top: 30%;
+    left: 15%;
+    margin-right: -50%;
+    transform: translate(-50%, -50%);
+}
+
+h2 {
+	font-family: sans-serif;
+	text-align: left;
+}
+
+#text {
+	padding: 10px;
+	font-size: 30px;
+    border: 2px solid #008CBA;
+}
+
+#search {
+	vertical-align: bottom;
+    position: relative;
+    display: inline;
+    background-color: white; 
+    color: black; 
+    border: 2px solid #008CBA;
+    padding: 18px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    /*margin: 4px 2px;*/
+}
+
+#search:hover {
+    background-color: #008CBA;
+    color: white;
+}
