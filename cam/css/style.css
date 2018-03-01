@@ -57,9 +57,16 @@ form {
     transform: translate(-50%, -50%);
 }
 
-h2 {
+/*h2 {
 	font-family: sans-serif;
 	text-align: left;
+}*/
+
+h3 {
+    font-family: sans-serif;
+    color: white;
+    font-weight: 100;
+    float: left;
 }
 
 #text {
