@@ -8,16 +8,48 @@
 </head>
 <body>
 
+<style> 
+
+	body {
+		background-color: #5C97BF;
+	}
+	#btnGroup {
+		z-index: 1000;
+	    position: absolute;
+	    top: 50%;
+	    left: 50%;
+	    margin-right: -50%;
+	    transform: translate(-50%, -50%);
+	}
+	#btn {
+		text-transform: uppercase;
+		vertical-align: bottom;
+	    position: relative;
+	    display: inline;
+	    background-color: white; 
+	    color: black; 
+	    border: 2px solid #00E640;
+	    padding: 28px 32px;
+	    text-align: center;
+	    text-decoration: none;
+	    display: inline-block;
+	    font-size: 16px;
+	    /*margin: 4px 2px;*/
+	}
+	#btn:hover {
+	    background-color: #00E640;
+	    color: white;
+	}
+
+</style>
 
 
 
-
-<!--     <a href="forrest/forrest/forrest.html"><button>Forrest</button>
-
-    <a href="cam/cam/cam.html"><button>Cam</button>
-
-    <a href="anthony/anthony/anthony.html"><button>Anthony</button> -->
-
+	<div id="btnGroup">
+		<a href="forrest/forrest/forrest.html"><button id="btn">Forrest</button></a>
+		<a href="cam/cam/cam.html"><button id="btn">Cam</button></a>
+		<a href="anthony/anthony/anthony.html"><button id="btn">Anthony</button></a>
+	</div>
 
 
 </body>
