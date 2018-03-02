@@ -23,14 +23,17 @@ body {
 #wrapper {
 	display: inline-block;
 	list-style-type: none;
+    vertical-align: top;
 }
 
 li {
+    display: block;
 	float: right;
 	margin: 5px;
 }
 
 img {
+    display: block;
 	width: 640px;
 	height: 427px;
 }
@@ -63,6 +66,14 @@ form {
 }*/
 
 h3 {
+    font-family: sans-serif;
+    color: white;
+    font-weight: 100;
+    float: left;
+}
+
+figcaption {
+    display: block;
     font-family: sans-serif;
     color: white;
     font-weight: 100;

@@ -14,12 +14,11 @@ $(document).ready(function(){
 				dataType: 'json',
 				success: function(nasaData) {
 					if (nasaData) {
-						console.log(nasaData.collection.items);
-						console.log(nasaData.collection.items["0"].data["0"].description);
-						console.log(nasaData.collection.items["1"].data["0"].description);
+						// console.log(nasaData.collection.items);
+						// console.log(nasaData.collection.items["0"].data["0"].description);
 						var imgList = '';
 					    $.each(nasaData.collection.items, function () {
-			      			imgList += '<li><img src= "' + this.links['0'].href + '">' + '<figcaption>' + this.data['0'].description + '</figcaption>' + '</li>';
+			      			imgList += '<li><img src= "' + this.links['0'].href + '">' + '<figcaption>' + '</br>' + this.data['0'].title + '</figcaption>' + '</li>';
 			    		});
 			   			$('#wrapper').append(imgList);
 					}
@@ -40,6 +39,5 @@ $(document).ready(function(){
 	      	top: '-=90'
 	     }, 900);
 	});
-	// ["0"].data["0"].description
 
 });
