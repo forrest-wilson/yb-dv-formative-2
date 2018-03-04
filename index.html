@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <!-- Font -->
+    <link href="https://fonts.googleapis.com/css?family=Mina" rel="stylesheet">
     <title>Cam, Forrest, and Anthony Yoobee Formative</title>
 </head>
 <body>
@@ -11,7 +13,13 @@
 <style> 
 
 	body {
-		background-color: #5C97BF;
+		background-color: #22313F;
+	}
+	h1 {
+		font-family: 'Mina', sans-serif;
+		font-size: 16px;
+		color: white;
+		text-transform: uppercase;
 	}
 	#btnGroup {
 		z-index: 1000;
@@ -21,34 +29,58 @@
 	    margin-right: -50%;
 	    transform: translate(-50%, -50%);
 	}
-	#btn {
+	.btn {
+		font-family: 'Mina', sans-serif;
 		text-transform: uppercase;
 		vertical-align: bottom;
 	    position: relative;
 	    display: inline;
-	    background-color: white; 
-	    color: black; 
+	    background: none; 
+	    color: white; 
 	    border: 2px solid #00E640;
-	    padding: 28px 32px;
+	    padding: 26px 32px;
 	    text-align: center;
 	    text-decoration: none;
 	    display: inline-block;
 	    font-size: 16px;
 	    /*margin: 4px 2px;*/
+    	transition: all 2s ease;
 	}
-	#btn:hover {
+	.btn:hover {
 	    background-color: #00E640;
 	    color: white;
+	}
+	#btnGroup > a {
+		margin: 25px;
+		text-decoration: none;
+	}
+	#btnCam {
+		padding: 26px 51px;
+	}
+	#btnForrest {
+		padding: 26px 34px;
+	}
+	@media only screen and (max-width: 1040px) {
+	    .btn {
+	        display: block;
+	        margin-bottom: 25px;
+	        text-decoration: none;
+	    }
 	}
 
 </style>
 
+	<h1 id="title">Formative 2 Data Visualisation..</h1>
 
-
+	<div id="logoGroup">
+		<img src="">
+		<img src="">
+		<img src="">
+	</div>
 	<div id="btnGroup">
-		<a href="forrest/forrest/forrest.html"><button id="btn">Forrest</button></a>
-		<a href="cam/cam/cam.html"><button id="btn">Cam</button></a>
-		<a href="anthony/anthony/anthony.html"><button id="btn">Anthony</button></a>
+		<a href="forrest/forrest.html"><button class="btn" id="btnForrest">Forrest</button></a>
+		<a href="cam/cam.html"><button class="btn" id="btnCam">Cam</button></a>
+		<a href="anthony/anthony.html"><button class="btn">Anthony</button></a>
 	</div>
 
 
