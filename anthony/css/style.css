@@ -1,0 +1,47 @@
+* {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+}
+
+body {
+	background: linear-gradient(#C2FFD1, #6CABCC);
+	height: 100vh;
+	overflow: hidden;
+}
+
+.logo {
+	background: white;
+	text-align: center;
+	padding: 50px 0;
+	box-shadow: 0px 1px 10px 2px #888888; 
+	border-bottom: 5px solid #444444;
+}
+
+h1 {
+	font-family: 'Amatic SC', cursive;
+	font-size: 4em;
+	font-weight: 400;
+	word-spacing: 0.1em; 
+}
+
+.content {
+	height: 57vh;
+	overflow-y: scroll;
+	margin: 20px -20px 0 0;
+}
+
+.card {
+	width: 100%;
+
+}
+
+.card-divider {
+	width: 100%;
+}
+
+
+
+
+
+	
